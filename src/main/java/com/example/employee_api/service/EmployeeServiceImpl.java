@@ -5,17 +5,21 @@ import com.example.employee_api.repository.EmployeeDAO;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import tools.jackson.databind.json.JsonMapper;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService{
     // inject DAOs
     private final EmployeeDAO employeeDAO;
+    private final JsonMapper jsonMapper;
 
     @Autowired
-    public EmployeeServiceImpl(EmployeeDAO employeeDAO){
+    public EmployeeServiceImpl(EmployeeDAO employeeDAO, JsonMapper jsonMapper){
         this.employeeDAO = employeeDAO;
+        this.jsonMapper = jsonMapper;
     }
 
     public List<Employee> findAll(){
@@ -54,5 +58,24 @@ public class EmployeeServiceImpl implements EmployeeService{
         this.employeeDAO.deleteById(employee);
 
         return employee.toString();
+    }
+
+    @Override
+    @Transactional
+    public Employee patch(int id, Map<String, Object> payload){
+        Employee employee = this.employeeDAO.findById(id);
+
+        if(employee == null){
+            throw new RuntimeException("Employee id not found - " + id);
+        }
+
+        // throw error if request body contains id
+        if(payload.containsKey("id")){
+            throw new RuntimeException("Employee id cannot be changed. Please resubmit without id.");
+        }
+
+        // apply partial updates to the existing employee object using JsonMapper
+        Employee patchedEmployee = this.jsonMapper.updateValue(employee, payload);
+        return this.employeeDAO.save(patchedEmployee);
     }
 }

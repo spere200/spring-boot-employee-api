@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/employees")
@@ -13,7 +14,7 @@ public class EmployeeRestController {
     // inject employee service
     private final EmployeeService employeeService;
 
-    // inject employeeDAO
+
     @Autowired
     public EmployeeRestController(EmployeeService employeeService){
         this.employeeService = employeeService;
@@ -42,5 +43,10 @@ public class EmployeeRestController {
     @DeleteMapping("/{id}")
     public String deleteEmployee(@PathVariable int id){
         return this.employeeService.deleteById(id);
+    }
+
+    @PatchMapping("/{id}")
+    public Employee patchEmployee(@PathVariable int id, @RequestBody Map<String, Object> payload){
+        return this.employeeService.patch(id, payload);
     }
 }
