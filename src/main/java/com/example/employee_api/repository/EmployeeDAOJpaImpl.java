@@ -33,11 +33,17 @@ public class EmployeeDAOJpaImpl implements EmployeeDAO{
 
     @Override
     public Employee save(Employee employee) {
+        em.persist(employee);
+        return employee;
+    }
+
+    @Override
+    public Employee update(Employee employee) {
         return em.merge(employee);
     }
 
     @Override
-    public void deleteById(Employee employee) {
+    public void delete(Employee employee) {
         em.remove(employee);
     }
 }

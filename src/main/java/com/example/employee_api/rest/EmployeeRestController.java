@@ -35,18 +35,20 @@ public class EmployeeRestController {
         return this.employeeService.save(employee);
     }
 
-    @PutMapping("")
-    public Employee updateEmployee(@RequestBody Employee employee){
-        return this.employeeService.save(employee);
-    }
-
-    @DeleteMapping("/{id}")
-    public String deleteEmployee(@PathVariable int id){
-        return this.employeeService.deleteById(id);
+    @PutMapping("/{id}")
+    public Employee updateEmployee(@PathVariable int id, @RequestBody Employee employee){
+        // can send employee with or without id, Jackson adds missing fields with default values
+        // when it deserializes the object to make it match the corresponding @Entity
+        return this.employeeService.update(id, employee);
     }
 
     @PatchMapping("/{id}")
     public Employee patchEmployee(@PathVariable int id, @RequestBody Map<String, Object> payload){
         return this.employeeService.patch(id, payload);
+    }
+
+    @DeleteMapping("/{id}")
+    public Employee deleteEmployee(@PathVariable int id){
+        return this.employeeService.deleteById(id);
     }
 }

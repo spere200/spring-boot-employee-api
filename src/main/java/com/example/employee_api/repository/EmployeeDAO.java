@@ -8,5 +8,6 @@ public interface EmployeeDAO {
     List<Employee> findAll();
     Employee findById(int id);
     Employee save(Employee employee);
-    void deleteById(Employee employee);
+    Employee update(Employee employee);
+    void delete(Employee employee);
 }

@@ -8,7 +8,7 @@ public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
-    private int id;
+    private Integer id;
 
     @Column(name="first_name")
     private String firstName;
@@ -30,11 +30,11 @@ public class Employee {
 
     // define getters and setters
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -63,7 +63,6 @@ public class Employee {
     }
 
     // define toString
-
     @Override
     public String toString() {
         return "Employee{" +

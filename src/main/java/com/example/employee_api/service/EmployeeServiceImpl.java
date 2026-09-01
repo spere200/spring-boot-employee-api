@@ -34,30 +34,39 @@ public class EmployeeServiceImpl implements EmployeeService{
     @Override
     @Transactional
     public Employee save(Employee employee) {
-        // force an id of 0 just in case the post request is sent with
-        // anything else to force an add instead of an update
-        employee.setId(0);
+        if(employee.getId() != null){
+            throw new RuntimeException("The \"id\" field is auto-generated. Try again without \"id\".");
+        }
+        // no longer need to set id to 0, now using persists, id field is explicitly not allowed
         return employeeDAO.save(employee);
     }
 
     @Override
     @Transactional
-    public Employee update(Employee employee){
-        return employeeDAO.save(employee);
+    public Employee update(int id, Employee employee){
+        Employee dbEmployee = employeeDAO.findById(id);
+
+        if(dbEmployee == null){
+            throw new RuntimeException("Employee id not found - " + id);
+        }
+
+        employee.setId(id);
+
+        return employeeDAO.update(employee);
     }
 
     @Override
     @Transactional
-    public String deleteById(int id) {
+    public Employee deleteById(int id) {
         Employee employee = this.employeeDAO.findById(id);
 
         if(employee == null){
             throw new RuntimeException("Employee id not found - " + id);
         }
 
-        this.employeeDAO.deleteById(employee);
+        this.employeeDAO.delete(employee);
 
-        return employee.toString();
+        return employee;
     }
 
     @Override
