@@ -20,7 +20,7 @@ public class Employee {
     private String email;
 
     // define constructors
-    public Employee(){};
+    public Employee(){}
 
     public Employee(String firstName, String lastName, String email) {
         this.firstName = firstName;

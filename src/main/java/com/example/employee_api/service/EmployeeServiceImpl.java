@@ -2,7 +2,7 @@ package com.example.employee_api.service;
 
 import com.example.employee_api.entity.Employee;
 import com.example.employee_api.repository.EmployeeDAO;
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tools.jackson.databind.json.JsonMapper;
@@ -22,12 +22,15 @@ public class EmployeeServiceImpl implements EmployeeService{
         this.jsonMapper = jsonMapper;
     }
 
+    @Override
+    @Transactional(readOnly = true)
     public List<Employee> findAll(){
         return employeeDAO.findAll();
     }
 
     @Override
-    public Employee findById(int id) {
+    @Transactional(readOnly = true)
+    public Employee findById(Integer id) {
         return employeeDAO.findById(id);
     }
 
@@ -78,13 +81,10 @@ public class EmployeeServiceImpl implements EmployeeService{
             throw new RuntimeException("Employee id not found - " + id);
         }
 
-        // throw error if request body contains id
-        if(payload.containsKey("id")){
-            throw new RuntimeException("Employee id cannot be changed. Please resubmit without id.");
-        }
+        // remove id key if included
+        payload.remove("id");
 
         // apply partial updates to the existing employee object using JsonMapper
-        Employee patchedEmployee = this.jsonMapper.updateValue(employee, payload);
-        return this.employeeDAO.save(patchedEmployee);
+        return this.jsonMapper.updateValue(employee, payload);
     }
 }

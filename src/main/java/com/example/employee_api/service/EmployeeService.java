@@ -7,7 +7,7 @@ import java.util.Map;
 
 public interface EmployeeService {
     List<Employee> findAll();
-    Employee findById(int id);
+    Employee findById(Integer id);
     Employee save(Employee employee);
     Employee update(int id, Employee employee);
     Employee deleteById(int id);

@@ -20,7 +20,7 @@ public class EmployeeRestController {
         this.employeeService = employeeService;
     }
 
-    @GetMapping("")
+    @GetMapping()
     public List<Employee> getEmployees(){
         return this.employeeService.findAll();
     }
@@ -30,7 +30,7 @@ public class EmployeeRestController {
         return this.employeeService.findById(id);
     }
 
-    @PostMapping("")
+    @PostMapping()
     public Employee addEmployee(@RequestBody Employee employee){
         return this.employeeService.save(employee);
     }

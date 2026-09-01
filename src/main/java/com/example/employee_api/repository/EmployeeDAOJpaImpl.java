@@ -27,7 +27,7 @@ public class EmployeeDAOJpaImpl implements EmployeeDAO{
     }
 
     @Override
-    public Employee findById(int id) {
+    public Employee findById(Integer id) {
         return em.find(Employee.class, id);
     }
 
