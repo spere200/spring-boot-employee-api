@@ -37,10 +37,10 @@ public class EmployeeDAOJpaImpl implements EmployeeDAO{
         return employee;
     }
 
-    @Override
-    public Employee update(Employee employee) {
-        return em.merge(employee);
-    }
+//    @Override
+//    public Employee update(Employee employee) {
+//        return em.merge(employee);
+//    }
 
     @Override
     public void delete(Employee employee) {

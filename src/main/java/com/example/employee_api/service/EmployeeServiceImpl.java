@@ -46,7 +46,7 @@ public class EmployeeServiceImpl implements EmployeeService{
 
     @Override
     @Transactional
-    public Employee update(int id, Employee employee){
+    public Employee update(Integer id, Employee employee){
         Employee dbEmployee = employeeDAO.findById(id);
 
         if(dbEmployee == null){
@@ -55,12 +55,12 @@ public class EmployeeServiceImpl implements EmployeeService{
 
         employee.setId(id);
 
-        return employeeDAO.update(employee);
+        return this.jsonMapper.updateValue(dbEmployee, employee);
     }
 
     @Override
     @Transactional
-    public Employee deleteById(int id) {
+    public Employee deleteById(Integer id) {
         Employee employee = this.employeeDAO.findById(id);
 
         if(employee == null){
@@ -74,7 +74,7 @@ public class EmployeeServiceImpl implements EmployeeService{
 
     @Override
     @Transactional
-    public Employee patch(int id, Map<String, Object> payload){
+    public Employee patch(Integer id, Map<String, Object> payload){
         Employee employee = this.employeeDAO.findById(id);
 
         if(employee == null){

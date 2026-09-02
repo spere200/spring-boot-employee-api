@@ -9,7 +9,7 @@ public interface EmployeeService {
     List<Employee> findAll();
     Employee findById(Integer id);
     Employee save(Employee employee);
-    Employee update(int id, Employee employee);
-    Employee deleteById(int id);
-    Employee patch(int id, Map<String, Object> payload);
+    Employee update(Integer id, Employee employee);
+    Employee deleteById(Integer id);
+    Employee patch(Integer id, Map<String, Object> payload);
 }
